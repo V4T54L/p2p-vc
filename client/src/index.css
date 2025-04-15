@@ -1,1 +1,42 @@
 @import "tailwindcss";
+
+
+.text-primary {
+    @apply text-blue-500;
+}
+
+.text-secondary {
+    @apply text-slate-800;
+}
+
+.text-accent {
+    @apply text-emerald-500;
+}
+
+.text-danger {
+    @apply text-red-500;
+}
+
+.bg-primary {
+    @apply bg-blue-500;
+}
+
+.bg-secondary {
+    @apply bg-slate-800;
+}
+
+.bg-accent {
+    @apply bg-emerald-500;
+}
+
+.bg-background {
+    @apply bg-slate-50;
+}
+
+.bg-card {
+    @apply bg-white;
+}
+
+.bg-danger {
+    @apply bg-red-500;
+}
