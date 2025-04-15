@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SERVER_URL } from '../constant';
+import { authResponse } from '../types';
+
+type HomePageProps = {
+  setToken: (token: string) => void,
+  setUsername: (username: string) => void,
+}
 
 // Landing Page with a form {username, password, room-id}
 // On Submit, Post Request to server_url/auth
 // On Success, Navigate to /room
-const HomePage: React.FC = () => {
+const HomePage: React.FC<HomePageProps> = ({ setToken, setUsername }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
@@ -30,12 +36,15 @@ const HomePage: React.FC = () => {
         },
         body: JSON.stringify(formData)
       });
+      const data: authResponse = await response.json()
 
       if (response.ok) {
+        setToken(data.token!)
+        setUsername(formData.username)
         navigate('/room');
       } else {
         const data = await response.json();
-        setError(data.message || 'Authentication failed');
+        setError(data.error || 'Authentication failed');
       }
     } catch (err) {
       setError('Server error');

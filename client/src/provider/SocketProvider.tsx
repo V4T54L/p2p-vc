@@ -17,16 +17,31 @@ export const SocketProvider: React.FC<Props> = ({ children, url, options }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   const socketInstance = useMemo(() => {
+    console.log("Sock Server URL : ", url)
     return io(url, options);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
+  // const socketInstance = io(url, options);
 
   useEffect(() => {
     setSocket(socketInstance);
+    console.log("Socket instabnce : ", socketInstance)
 
-    return () => {
-      socketInstance.disconnect();
-    };
+    socketInstance.on('connect', () => {
+      console.log('Socket connected with ID:', socketInstance.id);
+    });
+
+    socketInstance.on('init', () => {
+      console.log('Init called:', socketInstance.id);
+    });
+
+    socketInstance.on('connect_error', (error) => {
+      console.error('Socket connection error:', error);
+    });
+
+    // return () => {
+    //   socketInstance.disconnect();
+    // };
   }, [socketInstance]);
 
   return (

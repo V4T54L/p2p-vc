@@ -1,22 +1,16 @@
+import { useState } from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import HomePage from "./page/HomePage"
-import { SocketProvider } from "./provider/SocketProvider"
-import { PeerProvider } from "./provider/PeerProvider"
-import { SOCKET_SERVER_URL } from "./constant"
-
+import RoomPage from "./page/RoomPage"
 
 const App = () => {
+  const [token, setToken] = useState<string>("")
+  const [username, setUsername] = useState<string>("")
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/" element={
-          <SocketProvider url={SOCKET_SERVER_URL}>
-            <PeerProvider>
-              <HomePage />
-            </PeerProvider>
-          </SocketProvider>
-        } />
+        <Route path="/" element={<HomePage setToken={setToken} setUsername={setUsername} />} />
+        <Route path="/room" element={<RoomPage token={token} username={username} />} />
       </Routes>
     </BrowserRouter>
   )
